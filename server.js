@@ -5,7 +5,8 @@ var { buildSchema } = require('graphql');
 var schema = buildSchema(`
     type Query {
         hello: String,
-        rollDice(numDice: Int!, numSides: Int): [Int]
+        rollDice(numDice: Int!, numSides: Int): [Int],
+        rollThreeDice: [Int]
     }
 `);
 
@@ -13,9 +14,12 @@ var root = {
     hello: () => {
         return 'Hello World'
     },
-    rollDice: () => {
-        return 'Dice Rolled!';
-    }
+    rollDice: ({numDice, numSides = 6}) => {
+        return [...Array(numDice).keys()].map(_ => 1 + Math.floor(Math.random() * numSides));
+    },
+    rollThreeDice: () => {
+        return Array.from().map(_ => 1 + Math.floor(Math.random() * 6));
+    },
 }
 
 var app = express();
